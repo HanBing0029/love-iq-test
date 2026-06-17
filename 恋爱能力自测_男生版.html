@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>恋爱能力自测 · 男生版</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#f5f0eb;color:#2c2416;line-height:1.7}
+.container{max-width:720px;margin:0 auto;padding:24px 16px 80px}
+.header{text-align:center;padding:40px 0 24px}
+.header h1{font-size:28px;font-weight:700;color:#1a1a2e;margin-bottom:8px}
+.header p{color:#6b5e4f;font-size:15px}
+.badge{display:inline-block;background:#1a1a2e;color:#f0e6d8;padding:4px 14px;border-radius:20px;font-size:13px;margin-top:8px}
+.progress-bar{background:#e8ddd0;border-radius:10px;height:8px;margin:0 0 32px;overflow:hidden;position:sticky;top:16px;z-index:10}
+.progress-fill{background:linear-gradient(90deg,#c49a6c,#8b5e3c);height:100%;border-radius:10px;transition:width .3s ease;width:0%}
+.progress-text{text-align:center;font-size:12px;color:#8b7355;margin-top:6px}
+.q-card{background:#fff;border-radius:16px;padding:28px 24px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,.06);display:none}
+.q-card.active{display:block}
+.q-card .q-num{display:inline-block;background:#1a1a2e;color:#f0e6d8;font-size:12px;padding:2px 10px;border-radius:12px;margin-bottom:12px}
+.q-card .q-tag{font-size:12px;color:#c49a6c;font-weight:600;letter-spacing:1px;margin-left:8px}
+.q-card .q-title{font-size:18px;font-weight:700;margin-bottom:6px;color:#1a1a2e}
+.q-card .q-scene{font-size:15px;color:#4a3f35;margin-bottom:20px;line-height:1.8;padding:14px 18px;background:#faf7f3;border-radius:10px;border-left:3px solid #c49a6c}
+.option{display:block;padding:14px 18px;margin-bottom:10px;border:2px solid #e8ddd0;border-radius:12px;cursor:pointer;transition:all .2s;position:relative}
+.option:hover{border-color:#c49a6c;background:#fefbf7}
+.option.selected{border-color:#8b5e3c;background:#f7f1e8}
+.option input{display:none}
+.option .opt-label{font-weight:700;color:#c49a6c;margin-right:10px;font-size:15px}
+.option .opt-text{color:#4a3f35;font-size:14px}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:24px;gap:12px}
+.btn{padding:12px 28px;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-prev{background:#e8ddd0;color:#5c4a3a}
+.btn-prev:hover{background:#d4c4b0}
+.btn-next{background:#1a1a2e;color:#f0e6d8}
+.btn-next:hover{background:#2d2d44}
+.btn-submit{background:linear-gradient(135deg,#c49a6c,#8b5e3c);color:#fff;padding:14px 40px;font-size:16px}
+.btn-submit:hover{opacity:.9;transform:translateY(-1px)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.nav-hint{font-size:13px;color:#a08c78;text-align:center;margin-top:8px}
+.results{display:none}
+.results.show{display:block}
+.section-title{font-size:20px;font-weight:700;color:#1a1a2e;margin:32px 0 16px;padding-bottom:8px;border-bottom:2px solid #e8ddd0}
+.radar-wrap{background:#fff;border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,.06);text-align:center}
+.radar-wrap h3{font-size:17px;margin-bottom:4px;color:#1a1a2e}
+.radar-wrap .subtitle{font-size:13px;color:#8b7355;margin-bottom:16px}
+canvas{max-width:100%}
+.dim-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:24px}
+.dim-card{background:#fff;border-radius:14px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.dim-card .dim-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.dim-card .dim-name{font-weight:700;font-size:16px}
+.dim-card .dim-score{font-size:24px;font-weight:800}
+.dim-card .dim-bar{height:6px;background:#e8ddd0;border-radius:3px;margin:8px 0;overflow:hidden}
+.dim-card .dim-fill{height:100%;border-radius:3px;transition:width .6s ease}
+.dim-card .dim-desc{font-size:13px;color:#6b5e4f;line-height:1.6}
+.level-h{color:#2e7d32}.level-m{color:#e67e22}.level-l{color:#c0392b}.level-r{color:#e74c3c}
+.type-box{background:linear-gradient(135deg,#1a1a2e,#2d2d44);color:#f0e6d8;border-radius:16px;padding:28px 24px;margin-bottom:20px}
+.type-box .type-name{font-size:22px;font-weight:800;margin-bottom:4px}
+.type-box .type-sub{font-size:14px;color:#c49a6c;margin-bottom:14px}
+.type-box .type-desc{font-size:15px;line-height:1.8;opacity:.9}
+.type-box .type-task{display:inline-block;margin-top:14px;background:rgba(255,255,255,.12);padding:8px 16px;border-radius:8px;font-size:14px}
+.feedback-list{margin-top:16px}
+.fb-item{background:#fff;border-radius:12px;padding:18px;margin-bottom:10px;box-shadow:0 1px 6px rgba(0,0,0,.04)}
+.fb-item summary{font-weight:700;font-size:15px;cursor:pointer;color:#1a1a2e;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.fb-item summary::-webkit-details-marker{display:none}
+.fb-item summary::after{content:"▸";font-size:12px;transition:transform .2s;color:#c49a6c}
+.fb-item[open] summary::after{transform:rotate(90deg)}
+.fb-item .fb-content{margin-top:12px;font-size:14px;color:#4a3f35;line-height:1.8}
+.fb-item .fb-score{font-size:13px;padding:2px 8px;border-radius:6px;font-weight:600}
+.fb-score.best{background:#e8f5e9;color:#2e7d32}
+.fb-score.ok{background:#fff3e0;color:#e67e22}
+.fb-score.poor{background:#fbe9e7;color:#c0392b}
+.retry-btn{display:block;margin:32px auto;padding:12px 36px;background:#e8ddd0;border:none;border-radius:10px;font-size:15px;font-weight:600;color:#5c4a3a;cursor:pointer;transition:all .2s}
+.retry-btn:hover{background:#d4c4b0}
+@media(max-width:480px){
+  .header h1{font-size:22px}
+  .q-card{padding:20px 16px}
+  .option{padding:12px 14px}
+  .btn{padding:10px 20px;font-size:14px}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>恋爱能力自测</h1>
+    <p>男生版 · 20道场景选择题 · 五大维度诊断</p>
+    <span class="badge">基于情商知识库设计</span>
+  </div>
+
+  <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+  <p class="progress-text" id="progressText">0 / 20</p>
+
+  <div id="questionArea"></div>
+
+  <div class="nav" id="navArea">
+    <button class="btn btn-prev" id="btnPrev" onclick="prevQ()">← 上一题</button>
+    <button class="btn btn-next" id="btnNext" onclick="nextQ()">下一题 →</button>
+  </div>
+  <p class="nav-hint" id="navHint"></p>
+
+  <div class="results" id="resultsArea"></div>
+</div>
+
+<script>
+// ===================== DATA =====================
+const Q = [
+  {id:1,dim:"D1",tag:"吸引力构建",title:"搭讪场景",scene:`你在咖啡店看到一个感兴趣的女生，她一个人坐在窗边看书，手边放着喝了一半的拿铁。你会？`,
+   opts:[
+     {l:"A",t:`直接走过去，微笑着说：你好，我刚才在那边注意到你，想认识一下你。`,s:1},
+     {l:"B",t:`坐到她附近的位置，等她偶尔抬头时微笑对视，看她的反应再决定`,s:2},
+     {l:"C",t:`拿自己的咖啡走过去，自然地指指她手边的书说：这本书我看过/一直想看，你觉得怎么样？`,s:2},
+     {l:"D",t:`先观察几秒——她有没有戴耳机、表情是否专注、周围有没有空位——然后选一个不会惊吓到她的角度走过去，用一个轻松的话题自然开场`,s:3}
+   ],fb:{best:`D（3分）：高手思维——先读环境再行动。观察耳机/表情/空位=尊重对方空间+降低自己的紧张感。搭讪第一原则是不惊吓对方。`,ok:`B/C（2分）：方向对，但B太被动，C偏间接。`,poor:`A（1分）：直接表达意图本身没错，但一上来就把所有底牌摊开，没有悬念。`}},
+
+  {id:2,dim:"D2",tag:"框架控制",title:"测试回应",scene:`你们聊得不错，她突然笑着说：你这个人挺自恋的嘛。说这话时面带微笑，身体略微前倾。`,
+   opts:[
+     {l:"A",t:`没有啦，我就是比较自信而已——谦虚否认`,s:0},
+     {l:"B",t:`那你喜欢自恋的男生吗？——试探她的态度`,s:1},
+     {l:"C",t:`被你发现了。不过我这叫"自信不自恋"。重点是——你刚才难道不是在暗指自己比我还自恋？——笑着回弹`,s:3},
+     {l:"D",t:`哈哈哈，其实我平时挺低调的——转移话题，不当真`,s:1}
+   ],fb:{best:`C（3分）：不否认不防御+把球弹回去=魔鬼聊天术"扩大冲突"的经典应用。高框架。`,ok:`B/D（1分）：B试探=交出主动权；D转移=浪费调情窗口。`,poor:`A（0分）：谦虚否认=接受了她的评价框架并开始辩护。`}},
+
+  {id:3,dim:"D3",tag:"情绪感知",title:"情绪洞察",scene:`你们第一次微信聊天，她回了一句话：今天又被领导说了，好烦。`,
+   opts:[
+     {l:"A",t:`发生什么事了？他为什么说你？`,s:2},
+     {l:"B",t:`你们领导有毛病吧！凭什么说你啊！`,s:1},
+     {l:"C",t:`别太往心里去，工作嘛，大家都这样`,s:0},
+     {l:"D",t:`听起来挺郁闷的。今天怎么过的？`,s:3}
+   ],fb:{best:`D（3分）：先共情后探索。NVC核心——先接住情绪再了解事实。`,ok:`A（2分）：方向对但跳过了共情第一步，直接进"了解事实"模式。`,poor:`B/C：B（1分）站队式共情不一定需要；C（0分）"别想太多"=情绪否定——你的情绪不重要。`}},
+
+  {id:4,dim:"D1",tag:"吸引力构建",title:"初次约会",scene:`第一次约会，你希望给她留下好印象。你选择？`,
+   opts:[
+     {l:"A",t:`精心设计约会流程——吃什么、逛哪里、看什么——确保每个环节都安排妥当`,s:1},
+     {l:"B",t:`多次夸她好看，让她感受到你很喜欢她`,s:0},
+     {l:"C",t:`主要聊自己擅长的领域，展示专业深度和个人魅力`,s:2},
+     {l:"D",t:`把70%的时间留给她说话，在她说的内容上延展提问——偶尔自然地分享一个关于你自己的有趣经历`,s:3}
+   ],fb:{best:`D（3分）：倾听为主+偶尔展示。魔鬼聊天术的"魔趣法则"核心=有联系感的互动，不是单向输出。`,ok:`C（2分）：展示价值(DHV)没错，但单向演讲像面试。`,poor:`A/B：A（1分）过度策划=不松弛；B（0分）多次夸外貌=需求感溢出。`}},
+
+  {id:5,dim:"D2",tag:"框架控制",title:"她提其他男生",scene:`你喜欢的女生在你面前频繁提到一个男性朋友的名字。至少提了三次。`,
+   opts:[
+     {l:"A",t:`你也提一个女性朋友，让她知道你也有异性朋友`,s:1},
+     {l:"B",t:`直接问她：你是不是对他有意思？`,s:0},
+     {l:"C",t:`她提的时候不当回事——如果超过三次，平静地随意问一句：你跟他很熟吗？`,s:3},
+     {l:"D",t:`适当表现一点不自在，让她感受到你在意`,s:0}
+   ],fb:{best:`C（3分）：不反应=最高级反应。高级男人手册：永远不要基于女人话语的字面意思做决定。`,ok:`A（1分）："我也提"=进入她的框架，互相比拼=你已经输了。`,poor:`B/D（0分）：B直接问=暴露不安全感；D主动暴露软肋。`}},
+
+  {id:6,dim:"D3",tag:"情绪感知",title:"对谁都好",scene:`一个和你处于暧昧期的女生对你说：你这个人好像对谁都很好的样子。`,
+   opts:[
+     {l:"A",t:`没有啊，我只是比较会做人而已`,s:1},
+     {l:"B",t:`心里一紧：她在暗示我对她不够特别——于是之后特意对她更好`,s:0},
+     {l:"C",t:`微笑着说：那你呢？你对谁都这么细心观察吗？`,s:2},
+     {l:"D",t:`意识到她在确认自己的特殊性，于是认真看着她：那你觉得我对你，跟对别人一样吗？`,s:3}
+   ],fb:{best:`D（3分）：她说的"对谁都好"=确认特殊性。拉入"你我之间"=魔鬼聊天术"暧昧时刻只聊你我"的完美示范。`,ok:`C（2分）：反弹回去也OK，有调情感但少了些许认真。`,poor:`A/B：A（1分）防御式否认；B（0分）被她一句话就扰动=框架崩塌。`}},
+
+  {id:7,dim:"D2",tag:"框架控制",title:"她取消约会",scene:`你们约好了周六下午见面，她突然发消息说：今天有点累，要不改天吧？`,
+   opts:[
+     {l:"A",t:`没关系，你好好休息。有空的时候告诉我。——然后继续做自己的事`,s:3},
+     {l:"B",t:`怎么了？是不是我上次哪里做得不好？`,s:0},
+     {l:"C",t:`好吧……那你觉得什么时候方便？`,s:1},
+     {l:"D",t:`累的话我去找你吧，陪你休息也行`,s:0}
+   ],fb:{best:`A（3分）：不追问理由+不暴露失望+把主动权留给她+回归自己的生活。高框架。`,ok:`C（1分）："好吧……"暴露失望，"那什么时候"暴露焦虑。`,poor:`B/D（0分）：B立刻自我怀疑=框架崩塌；D过度讨好=主动降低价值。`}},
+
+  {id:8,dim:"D1",tag:"吸引力构建",title:"约会后联系",scene:`第一次约会结束，她说"今天挺开心的"。当晚你——`,
+   opts:[
+     {l:"A",t:`发一条简短的：我也很开心。到家给我说一声。——根据她的回复节奏再定下一步`,s:3},
+     {l:"B",t:`当晚就确认下一次约会时间地点`,s:1},
+     {l:"C",t:`等她先发消息——她如果不主动说明兴趣不大`,s:0},
+     {l:"D",t:`过两天再联系，给她一些空间`,s:2}
+   ],fb:{best:`A（3分）："开心+到家告诉我"=确认好感+留关怀+不急于推进。节奏在你手里。`,ok:`D（2分）：等两天也对，但首约当晚完全沉默可能让她觉得"他对我就这样？"`,poor:`B/C：B（1分）刚结束就锁死下一次=需求感太强；C（0分）刻意高姿态=游戏心态。`}},
+
+  {id:9,dim:"D3",tag:"情绪感知",title:"倾诉时刻",scene:`她对你说：我爸妈又吵架了，我妈打电话给我哭了一个小时。我真的好累。说完看着你。`,
+   opts:[
+     {l:"A",t:`你爸妈的事情你别太操心了，他们大人自己会解决的`,s:0},
+     {l:"B",t:`分享自己家类似的经历，让她知道她不是一个人`,s:1},
+     {l:"C",t:`你妈给你打电话哭……那你听完之后什么感觉？`,s:2},
+     {l:"D",t:`轻轻说：听起来你夹在中间很辛苦——然后看她要不要继续往下说`,s:3}
+   ],fb:{best:`D（3分）：镜像她的感受但不越界。先确认"你很辛苦"，再给她决定要不要深入的主动权。`,ok:`C（2分）：引导她表达=好方向，但"你什么感觉"有点像心理咨询师。`,poor:`A/B：B（1分）焦点转移回自己；A（0分）标准"直男终结式"——跳过所有情绪直接给解决方案。`}},
+
+  {id:10,dim:"D3",tag:"情绪感知",title:"约会中的突然安静",scene:`约会聊得正欢，她突然安静下来，表情若有所思，看向窗外。`,
+   opts:[
+     {l:"A",t:`问她：怎么了，不开心吗？`,s:1},
+     {l:"B",t:`自己也安静下来，等她主动开口`,s:2},
+     {l:"C",t:`继续热烈地找话题，用气氛带动她`,s:0},
+     {l:"D",t:`给她一个理解的微笑，等几秒——如果她没主动说，轻轻问一句：在想什么？`,s:3}
+   ],fb:{best:`D（3分）：非侵入式关怀——微笑=我在但不打扰，"在想什么"=给她主动权。`,ok:`B（2分）：安静陪伴不差，但缺了一点主动关心的信号。`,poor:`A/C：A（1分）"不开心吗"预设了负面；C（0分）无视她的状态=强行覆盖。`}},
+
+  {id:11,dim:"D2",tag:"框架控制",title:"回复突然变慢",scene:`你们暧昧了一段时间，之前她都是秒回。最近一周，她经常隔两三个小时才回一条消息，语气倒没有变化。`,
+   opts:[
+     {l:"A",t:`发消息直接问她：你最近是不是很忙？还是我惹你不高兴了？`,s:1},
+     {l:"B",t:`也把自己的回复节奏放慢，匹配她的频率——不追问、不焦虑——观察一周再判断`,s:3},
+     {l:"C",t:`加大发消息的频率，找更多话题，试图恢复热度`,s:0},
+     {l:"D",t:`发一条略带委屈的消息：最近好像不怎么理我了哦`,s:0}
+   ],fb:{best:`B（3分）：匹配频率=保持框架不被影响。你内心的平静不依赖于她的反应。`,ok:`A（1分）：直接问=把焦虑传递给她。`,poor:`C/D（0分）：C加倍输出=需求感爆表；D委屈式责怪=低价值。`}},
+
+  {id:12,dim:"D5",tag:"关系维护",title:"她分享脆弱",scene:`交往一个月后，她第一次跟你说了童年时父母离异的经历。讲完后她安静地看着你。`,
+   opts:[
+     {l:"A",t:`谢谢你和我说这些。`,s:2},
+     {l:"B",t:`你爸怎么能这样？你应该……——给出你的分析和建议`,s:0},
+     {l:"C",t:`我家也差不多，我小时候……——立刻分享你的类似经历`,s:1},
+     {l:"D",t:`这件事对你影响很大吧。谢谢你愿意告诉我。——然后根据她是否继续深入来决定要不要分享自己的经历`,s:3}
+   ],fb:{best:`D（3分）：确认+感谢+留白。关系中的深度连接始于对方准备好被看见的时刻。`,ok:`A（2分）：简洁但略显潦草——这么大的分享只用五个字回应。`,poor:`B/C：C（1分）焦点偷换；B（0分）跳过情绪直接给建议=最高级别沟通失误。`}},
+
+  {id:13,dim:"D4",tag:"冲突应对",title:"公开被调侃",scene:`朋友聚会中，你的女友当众笑着说：他呀，在家碗都不洗一个，懒死了。全场人看向你。`,
+   opts:[
+     {l:"A",t:`笑着回：那是，我把精力都用在赚钱养你了呀`,s:1},
+     {l:"B",t:`不解释，自然地换个话题——"对了XX最近怎么样了"`,s:2},
+     {l:"C",t:`微笑看着她，不回避也不反击——几秒后自然地继续和别人聊天`,s:3},
+     {l:"D",t:`嗨，今晚回去我洗，行了吧各位？`,s:0}
+   ],fb:{best:`C（3分）：不回避+不解释+不反击。女人的考验是看你能不能被她扰动。你越不动，她越安心。`,ok:`B（2分）：转换话题是好策略，但她公开说了你不接，旁边的人会觉得你在逃避。`,poor:`A/D：A（1分）幽默回击=已进入框架解释"为什么不洗碗"；D（0分）当众认怂。`}},
+
+  {id:14,dim:"D4",tag:"冲突应对",title:"翻手机",scene:`你发现女友翻过你的手机。你的反应是？`,
+   opts:[
+     {l:"A",t:`严肃但平静地说：这是我的底线，我不希望再发生。如果你有什么不放心的，可以直接问我。`,s:3},
+     {l:"B",t:`你怎么能随便翻我手机？你尊不尊重我？`,s:1},
+     {l:"C",t:`算了，反正没什么见不得人的，不说也罢`,s:0},
+     {l:"D",t:`以后你也留意她的手机，保持"公平"`,s:0}
+   ],fb:{best:`A（3分）：设立边界三要素——明确底线+第一人称+提供替代方案。边界设定精华。`,ok:`B（1分）：攻击而非立界。"你也不尊重我"=战斗而非保护。`,poor:`C/D（0分）：C放弃边界=默认授权；D报复而非解决=关系降级。`}},
+
+  {id:15,dim:"D1",tag:"吸引力构建",title:"LJBF",scene:`暧昧期，你很喜欢的女生突然发来一段长消息，核心意思是：我们还是先当朋友吧，你是个很好的人。`,
+   opts:[
+     {l:"A",t:`回复：好的，理解——然后继续以朋友身份对她好，等她自己改变想法`,s:1},
+     {l:"B",t:`回复：我尊重你的决定——之后大幅减少主动联系，把精力转到自己的生活和其他社交上`,s:3},
+     {l:"C",t:`追问原因，试图说服她：我们可以试试`,s:0},
+     {l:"D",t:`当做没收到这句话，继续按之前的模式追`,s:0}
+   ],fb:{best:`B（3分）：LJBF后继续对她好=用"朋友"掩饰"追求者"，只会更坚定拒绝。减少联系、回到自己的生活=唯一正确策略。`,ok:`A（1分）："等她自己改变想法"=真命天女症的典型症状。`,poor:`C/D（0分）：追问/无视拒绝=既不自尊也不尊重对方。`}},
+
+  {id:16,dim:"D4",tag:"冲突应对",title:"妈宝标签",scene:`因为你和母亲的关系，女友和你大吵一架，她说：你就是个妈宝！`,
+   opts:[
+     {l:"A",t:`我不是妈宝。但我妈把我养大，我不可能不管她。`,s:1},
+     {l:"B",t:`你现在用标签砸人，你觉得这能解决问题吗？`,s:0},
+     {l:"C",t:`我们先不说标签。你告诉我具体哪件事让你觉得我偏了我妈没考虑你——我们一起看看怎么解决。`,s:3},
+     {l:"D",t:`不说话，沉默等她自己冷静`,s:2}
+   ],fb:{best:`C（3分）：不争"我是不是妈宝"的标签，而是锁定具体行为。把情绪议题转化为可解决的具体问题。`,ok:`D（2分）：沉默能降温，但不解决根源——她会觉得你"不说话=默认"。`,poor:`A/B：A（1分）先防御再解释=接受指责框架；B（0分）反击=升级战斗。`}},
+
+  {id:17,dim:"D5",tag:"关系维护",title:"新鲜感消退",scene:`在一起半年，周末变成了各自刷手机。新鲜感明显下降。`,
+   opts:[
+     {l:"A",t:`策划一个惊喜周末（短途旅行或特别活动），用外部刺激重燃火花`,s:2},
+     {l:"B",t:`接受平淡是正常阶段——但重点放在提升自己的事业和兴趣上，你的成长会自然地吸引她的目光`,s:3},
+     {l:"C",t:`多买礼物、多说甜言蜜语，用行动告诉她：我还跟以前一样爱你`,s:1},
+     {l:"D",t:`跟她坐下来认真聊聊：我觉得我们最近好像没以前有激情了，你怎么看？`,s:2}
+   ],fb:{best:`B（3分）：男人的终极吸引力来自他的使命。平淡期不是"关系有问题"，而是"你的生活需要新能量"。`,ok:`A/D（2分）：都有效但A偏外部刺激驱动；D的"谈谈没激情了"可能制造新焦虑。`,poor:`C（1分）：表面功夫——买礼物和重复甜言蜜语不能替代真正的吸引力。`}},
+
+  {id:18,dim:"D5",tag:"关系维护",title:"她的牺牲",scene:`她为了陪你，放弃了去另一个城市的好工作机会。你现在是什么心态？`,
+   opts:[
+     {l:"A",t:`非常感动，觉得自己要用余生对她好来报答`,s:1},
+     {l:"B",t:`有点压力，尽量想办法补偿她（多承担开销、多陪她）`,s:2},
+     {l:"C",t:`感激但不愧疚——你也会为她做同样的事；以后遇到类似选择，你会优先考虑她的职业发展`,s:3},
+     {l:"D",t:`反正是她自己选的，不用想太多`,s:0}
+   ],fb:{best:`C（3分）：平等心态。她的牺牲是她的选择，你不需要"愧疚式补偿"。承诺未来同样考虑她=双向关系。`,ok:`B（2分）："补偿"心态=关系不平等，你在关系里欠债。`,poor:`A/D：A（1分）愧疚驱动=不健康；D（0分）不尊重她的牺牲。`}},
+
+  {id:19,dim:"D4",tag:"冲突应对",title:"吵架赶你走",scene:`激烈争吵后，她红着眼说：你走吧，我现在不想看到你。`,
+   opts:[
+     {l:"A",t:`立刻起身离开，给她完全的空间`,s:2},
+     {l:"B",t:`不走——过去抱住她说：我不走，我们要把话说清楚`,s:0},
+     {l:"C",t:`说：好，我出去走走。大概一个小时——看看她的反应，然后准时回来`,s:3},
+     {l:"D",t:`走之前问：那你什么时候想见我？`,s:1}
+   ],fb:{best:`C（3分）：尊重她的需求+保留爱的通道+准时兑现=听她的话但做自己的决定。完美平衡。`,ok:`A（2分）：尊重空间是对的，但直接走掉不给信号——她可能真的在等你留下。`,poor:`B/D：D（1分）施加时间压力=焦虑感溢出；B（0分）无视边界="我不要见到你"+"我偏不走"。`}},
+
+  {id:20,dim:"D5",tag:"关系维护",title:"相处质量",scene:`你注意到最近两人在一起时经常各看各的手机，交流明显变少。你希望改善。`,
+   opts:[
+     {l:"A",t:`提议"吃饭时不看手机"的规则，设定制度`,s:1},
+     {l:"B",t:`自己先放下手机——用行为做榜样，看她是否会跟着做`,s:2},
+     {l:"C",t:`直接说出观察：我们好像最近在一起时都各自看手机，感觉不太好`,s:1},
+     {l:"D",t:`不动声色地引入需要互动的活动——一起做饭、打球、拼图——自然创造交流机会`,s:3}
+   ],fb:{best:`D（3分）：不讨论"问题"，直接创造解决方案。把抽象问题转化为具体的行为改变。`,ok:`B（2分）：从自己做起=好姿态，但太被动——她可能根本注意不到。`,poor:`A/C（1分）："规则"和"讨论问题"=把轻松的事情变得沉重。`}}
+];
+
+// ===================== 以下配置和函数保持不变 =====================
+const DIMS = {
+  D1:{name:"吸引力构建",desc:"搭讪、创造好感、推进关系的能力",questions:[1,4,8,15]},
+  D2:{name:"框架控制",desc:"面对测试、不被带节奏、保持自我中心",questions:[2,5,7,11]},
+  D3:{name:"情绪感知",desc:"读懂对方真实需求、共情回应、识别信号",questions:[3,6,9,10]},
+  D4:{name:"冲突应对",desc:"处理测试与冲突、设立边界、化解张力",questions:[13,14,16,19]},
+  D5:{name:"关系维护",desc:"长期关系中的平衡、沟通、承诺与经营",questions:[12,17,18,20]}
+};
+const DIM_KEYS = ["D1","D2","D3","D4","D5"];
+const TYPES = [
+  {name:"全能型",icon:"🌟",cond:s=>DIM_KEYS.every(k=>s[k]>=9),
+   desc:`你在吸引、框架、共情、冲突、关系维护上都成熟。知道什么时候主动、什么时候退让、什么时候不动如山。`,
+   task:`别变成一个"太会了"以至于无法真实的人。`},
+  {name:"博弈大师型",icon:"♟️",cond:s=>s.D1>=9&&s.D2>=9&&(s.D3<=6||s.D5<=6),
+   desc:`你很会"拿下"一段关系，但不擅长维护它。搭讪、调情、框架博弈你如鱼得水——但在一起之后，你发现自己不知道该怎么"过日子"。`,
+   task:`核心功课：从"赢"到"在"。`},
+  {name:"好人卡专业户",icon:"💝",cond:s=>s.D3>=9&&s.D5>=9&&(s.D1<=6||s.D2<=6),
+   desc:`你是个很好的人，温暖、照顾人、愿意倾听。女生愿意把心事告诉你——但她们不会想吻你。因为你缺乏吸引力所需要的张力和不确定性。`,
+   task:`核心功课：学会制造距离感和挑战感，别怕"不够好"。`},
+  {name:"钢铁直男型",icon:"🪨",cond:s=>s.D2>=9&&s.D3<=6,
+   desc:`你内心强大，不轻易被扰动。框架稳如磐石。但代价是——你完全感受不到对方的情绪波动。她哭了三分之一你还在讲道理。`,
+   task:`核心功课：先接住情绪，再谈解决方案。感受比事实重要。`},
+  {name:"情绪过山车型",icon:"🎢",cond:s=>(s.D1>=9||s.D3>=9)&&s.D2<=5,
+   desc:`你很懂怎么让人心动，也善于捕捉情绪。但你的内心完全被她的反应牵着走。她热你就升天，她冷你就坠地。`,
+   task:`核心功课：建立内核——你的快乐不能取决于她的表情。`},
+  {name:"逃避冲突型",icon:"🏳️",cond:s=>s.D2<=5&&s.D4<=5,
+   desc:`你不喜欢冲突。要么忍、要么逃。结果边界一点一点被侵蚀，积累到某个临界点突然爆发——然后对方说"你怎么突然这样"。`,
+   task:`核心功课：学习设立边界。边界不是攻击，是保护。`}
+];
+
+let currentQ = 0;
+let answers = new Array(20).fill(-1);
+let submitted = false;
+
+function renderAll(){
+  let html = "";
+  Q.forEach((q,i)=>{
+    let act = i===currentQ?" active":"";
+    html += '<div class="q-card'+act+'" id="qCard'+i+'">'+
+      '<span class="q-num">Q'+q.id+'</span><span class="q-tag">'+q.tag+'</span>'+
+      '<div class="q-title">'+q.title+'</div>'+
+      '<div class="q-scene">'+q.scene+'</div>';
+    q.opts.forEach((o,j)=>{
+      let sel = answers[i]===j?" selected":"";
+      html += '<label class="option'+sel+'" onclick="selectAnswer('+i+','+j+')">'+
+        '<input type="radio" name="q'+i+'">'+
+        '<span class="opt-label">'+o.l+'</span>'+
+        '<span class="opt-text">'+o.t+'</span>'+
+        '</label>';
+    });
+    html += '</div>';
+  });
+  document.getElementById("questionArea").innerHTML = html;
+  if(currentQ > 0) {
+    setTimeout(()=>{
+      let el = document.getElementById("qCard"+currentQ);
+      if(el) el.scrollIntoView({behavior:"smooth",block:"start"});
+    },100);
+  }
+  updateProgress();
+  updateNav();
+}
+
+function updateProgress(){
+  let answered = answers.filter(a=>a>=0).length;
+  let pct = Math.round(answered/20*100);
+  document.getElementById("progressFill").style.width = pct+"%";
+  document.getElementById("progressText").textContent = answered+" / 20 已答";
+}
+
+function updateNav(){
+  let btnPrev = document.getElementById("btnPrev");
+  let btnNext = document.getElementById("btnNext");
+  let hint = document.getElementById("navHint");
+  btnPrev.style.display = currentQ===0?"none":"inline-block";
+  if(currentQ===19){
+    btnNext.textContent = answers.filter(a=>a>=0).length===20?"提交答案 ✓":"还需回答 "+(20-answers.filter(a=>a>=0).length)+" 题";
+    btnNext.className = "btn btn-submit";
+    btnNext.disabled = answers.filter(a=>a>=0).length<20;
+  } else {
+    btnNext.textContent = "下一题 →";
+    btnNext.className = "btn btn-next";
+    btnNext.disabled = false;
+  }
+  hint.textContent = currentQ===19&&answers.filter(a=>a>=0).length<20?"请回答完所有题目后提交":"";
+}
+
+function selectAnswer(qIdx,optIdx){
+  if(submitted) return;
+  answers[qIdx] = optIdx;
+  let card = document.getElementById("qCard"+qIdx);
+  if(!card) return;
+  let opts = card.querySelectorAll(".option");
+  opts.forEach((o,i)=>{ o.classList.toggle("selected",i===optIdx); });
+  updateProgress();
+  updateNav();
+}
+
+function nextQ(){
+  if(currentQ<19){
+    currentQ++;
+    switchCard();
+  } else if(currentQ===19 && answers.filter(a=>a>=0).length===20){
+    submitTest();
+  }
+}
+
+function prevQ(){
+  if(currentQ>0){
+    currentQ--;
+    switchCard();
+  }
+}
+
+function switchCard(){
+  document.querySelectorAll(".q-card").forEach((c,i)=>{
+    c.classList.toggle("active",i===currentQ);
+  });
+  let el = document.getElementById("qCard"+currentQ);
+  if(el) el.scrollIntoView({behavior:"smooth",block:"start"});
+  updateNav();
+}
+
+function submitTest(){
+  submitted = true;
+  document.getElementById("questionArea").style.display = "none";
+  document.getElementById("navArea").style.display = "none";
+  document.getElementById("navHint").style.display = "none";
+  document.getElementById("progressBar").style.display = "none";
+  document.getElementById("progressText").style.display = "none";
+
+  let scores = {};
+  DIM_KEYS.forEach(k=>{scores[k]=0;});
+  Q.forEach((q,i)=>{
+    let score = q.opts[answers[i]].s;
+    scores[q.dim] += score;
+  });
+
+  let levels = {};
+  DIM_KEYS.forEach(k=>{
+    let s = scores[k];
+    if(s>=10) levels[k]={cls:"level-h",txt:"⭐⭐⭐ 高手"};
+    else if(s>=7) levels[k]={cls:"level-m",txt:"⭐⭐ 合格"};
+    else if(s>=4) levels[k]={cls:"level-l",txt:"⭐ 待提升"};
+    else levels[k]={cls:"level-r",txt:"❗ 红旗"};
+  });
+
+  let matchedType = TYPES.find(t=>t.cond(scores));
+  if(!matchedType) matchedType = {name:"成长探索型",icon:"🌱",
+    desc:`你还在路上，但你在乎这件事。你愿意学习、愿意测试自己。每一分进步都是真实的。`,
+    task:`别急，恋爱能力和肌肉一样——练就会有。`};
+
+  let html = '<div class="results show">';
+
+  html += '<div class="radar-wrap">'+
+    '<h3>五大维度雷达图</h3>'+
+    '<p class="subtitle">满分各12分</p>'+
+    '<canvas id="radarCanvas" width="400" height="400"></canvas>'+
+    '</div>';
+
+  html += '<div class="section-title">各维度得分</div><div class="dim-grid">';
+  DIM_KEYS.forEach(k=>{
+    let s = scores[k];
+    let pct = Math.round(s/12*100);
+    let l = levels[k];
+    let bars = "▰".repeat(Math.max(1,Math.round(s/1.5)))+"▱".repeat(Math.max(0,8-Math.round(s/1.5)));
+    let high = s>=7?getDimHigh(k):"";
+    let low = s<=6?getDimLow(k):"";
+    html += '<div class="dim-card">'+
+      '<div class="dim-header"><span class="dim-name">'+DIMS[k].name+'</span>'+
+      '<span class="dim-score '+l.cls+'">'+s+' / 12</span></div>'+
+      '<div class="dim-bar"><div class="dim-fill" style="width:'+pct+'%;background:'+getDimColor(k)+'"></div></div>'+
+      '<div style="font-size:13px;color:#8b7355;margin:4px 0">'+l.txt+' &nbsp; '+bars+'</div>'+
+      '<div class="dim-desc">'+DIMS[k].desc+'</div>'+
+      '<div class="dim-desc" style="margin-top:4px">'+high+low+'</div>'+
+      '</div>';
+  });
+  html += '</div>';
+
+  html += '<div class="section-title">类型诊断</div>'+
+    '<div class="type-box">'+
+    '<div class="type-name">'+matchedType.icon+' '+matchedType.name+'</div>'+
+    '<div class="type-sub">基于你的五维得分模式</div>'+
+    '<div class="type-desc">'+matchedType.desc+'</div>'+
+    '<span class="type-task">📌 '+matchedType.task+'</span>'+
+    '</div>';
+
+  let weakDims = DIM_KEYS.filter(k=>scores[k]<=6);
+  if(weakDims.length>0){
+    html += '<div class="section-title">提升建议（薄弱维度）</div>';
+    weakDims.forEach(k=>{
+      html += '<div class="dim-card" style="border-left:4px solid '+getDimColor(k)+'">'+
+        '<div style="font-weight:700;font-size:16px;margin-bottom:8px">'+DIMS[k].name+'（'+scores[k]+'/12）</div>'+
+        '<div class="dim-desc">'+getAdvice(k)+'</div>'+
+        '</div>';
+    });
+  }
+
+  html += '<div class="section-title">逐题反馈</div><div class="feedback-list">';
+  Q.forEach((q,i)=>{
+    let s = q.opts[answers[i]].s;
+    let cls = s===3?"best":s===2?"ok":"poor";
+    let clsTxt = s===3?"优秀":s===2?"还行":"需改进";
+    let fbHtml = "";
+    if(s===3) fbHtml = '<p style="color:#2e7d32;font-weight:600;margin-bottom:6px">✅ 你得了满分！</p>'+q.fb.best;
+    else if(s===2) fbHtml = '<p style="color:#e67e22;font-weight:600;margin-bottom:6px">⚠️ 方向对但不最优</p>'+q.fb.ok+'<br><br><strong>最优解：</strong>'+q.fb.best;
+    else fbHtml = '<p style="color:#c0392b;font-weight:600;margin-bottom:6px">❌ 这个选项有坑</p>'+q.fb.poor+'<br><br><strong>最优解：</strong>'+q.fb.best;
+    html += '<details class="fb-item">'+
+      '<summary>Q'+q.id+' · '+q.title+' &nbsp; <span class="fb-score '+cls+'">'+s+'分 · '+clsTxt+'</span></summary>'+
+      '<div class="fb-content">你选了 <strong>'+q.opts[answers[i]].l+'</strong>：'+q.opts[answers[i]].t+'<br><br>'+fbHtml+'</div>'+
+      '</details>';
+  });
+  html += '</div>';
+
+  html += '<button class="retry-btn" onclick="retryTest()">重新测试</button>';
+  html += '</div>';
+
+  document.getElementById("resultsArea").innerHTML = html;
+  document.getElementById("resultsArea").classList.add("show");
+  setTimeout(()=>drawRadar(scores),200);
+}
+
+function getDimHigh(k){
+  const m={D1:`你懂得什么时候进、什么时候退，知道吸引是不动声色的展示而非大声宣告。`,
+    D2:`你在关系中有一个稳定的内核。她推不走你，也拉不偏你。`,
+    D3:`别人在你面前很容易打开自己。你不是在"解决问题"，而是在"看见对方"。`,
+    D4:`你不挑起战争也不逃避战争。能守住边界的同时维护关系。`,
+    D5:`你明白长期关系不是"追到手就完事"，而是一门持续的艺术。`};
+  return m[k]||"";
+}
+function getDimLow(k){
+  const m={D1:`容易用力过猛（一上来就表白）或不作为（等缘分），需要重新理解"吸引是如何发生的"。`,
+    D2:`容易被对方的语言或行为扰动——她一冷你就焦虑，她一考验你就露底。`,
+    D3:`容易在对方需要情绪确认时给出解决方案，或者完全读不懂暗示——俗称"直男癌"。`,
+    D4:`要么忍气吞声放弃底线，要么爆发反击两败俱伤。`,
+    D5:`新鲜感一退就容易出问题，不会在日常中持续创造连接。`};
+  return m[k]||"";
+}
+function getAdvice(k){
+  const a={D1:`📖 《魔鬼聊天术》搭讪方法论+调情四部曲<br>📖 《把妹达人》猫绳理论、三秒法则<br>🏋️ 每周出门跟一个陌生人说话（不限男女）`,
+    D2:`📖 《高级男人手册》女人是考官、自己做决定<br>📖 《迷男方法论》框架控制、否定、假性剥夺<br>🏋️ 她测试你时——先停顿三秒再说话`,
+    D3:`📖 《非暴力沟通NVC》四步骤+真实感受vs伪感受<br>📖 《高级男人手册》女人90%的情绪问题<br>🏋️ 下次她倾诉时，三句话内禁止给建议`,
+    D4:`📖 《边界设定》三步法+话术模板<br>📖 《迷男方法论》AMOG策略、冷冻<br>🏋️ 冲突时自问：我是在设边界还是攻击对方？`,
+    D5:`📖 《高级男人手册》在恐惧的边界慢行<br>📖 《魔鬼聊天术》尊重的定义、念头vs想法<br>🏋️ 每周一次"无手机的活动""`};
+  return a[k]||"";
+}
+function getDimColor(k){
+  const c={D1:"#c49a6c",D2:"#5c6bc0",D3:"#66bb6a",D4:"#ef5350",D5:"#ab47bc"};
+  return c[k]||"#999";
+}
+
+function drawRadar(scores){
+  let canvas = document.getElementById("radarCanvas");
+  if(!canvas) return;
+  let ctx = canvas.getContext("2d");
+  let W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  let cx = W/2, cy = H/2, r = 130;
+  let labels = DIM_KEYS.map(k=>DIMS[k].name);
+  let values = DIM_KEYS.map(k=>scores[k]/12);
+  let colors = DIM_KEYS.map(k=>getDimColor(k));
+  let n = labels.length;
+
+  for(let g=1;g<=4;g++){
+    ctx.beginPath();
+    for(let i=0;i<n;i++){
+      let ang = -Math.PI/2 + i*2*Math.PI/n;
+      let x = cx + r*g/4 * Math.cos(ang);
+      let y = cy + r*g/4 * Math.sin(ang);
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = "#e8ddd0";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  for(let i=0;i<n;i++){
+    let ang = -Math.PI/2 + i*2*Math.PI/n;
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+r*Math.cos(ang),cy+r*Math.sin(ang));
+    ctx.strokeStyle = "#d4c4b0";
+    ctx.stroke();
+    let lx = cx + (r+32)*Math.cos(ang);
+    let ly = cy + (r+32)*Math.sin(ang);
+    ctx.fillStyle = "#2c2416";
+    ctx.font = "bold 13px sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(labels[i],lx,ly);
+    let sx = cx + (r+52)*Math.cos(ang);
+    let sy = cy + (r+52)*Math.sin(ang);
+    ctx.fillStyle = colors[i];
+    ctx.font = "bold 12px sans-serif";
+    ctx.fillText(Math.round(values[i]*12)+"/12",sx,sy);
+  }
+
+  ctx.beginPath();
+  for(let i=0;i<n;i++){
+    let ang = -Math.PI/2 + i*2*Math.PI/n;
+    let x = cx + r*values[i] * Math.cos(ang);
+    let y = cy + r*values[i] * Math.sin(ang);
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.closePath();
+  ctx.fillStyle = "rgba(196,154,108,0.25)";
+  ctx.fill();
+  ctx.strokeStyle = "#c49a6c";
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
+
+  for(let i=0;i<n;i++){
+    let ang = -Math.PI/2 + i*2*Math.PI/n;
+    let x = cx + r*values[i] * Math.cos(ang);
+    let y = cy + r*values[i] * Math.sin(ang);
+    ctx.beginPath();
+    ctx.arc(x,y,5,0,2*Math.PI);
+    ctx.fillStyle = colors[i];
+    ctx.fill();
+    ctx.strokeStyle = "#fff";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+}
+
+function retryTest(){
+  submitted = false;
+  answers = new Array(20).fill(-1);
+  currentQ = 0;
+  document.getElementById("questionArea").style.display = "block";
+  document.getElementById("navArea").style.display = "flex";
+  document.getElementById("navHint").style.display = "block";
+  document.getElementById("progressBar").style.display = "block";
+  document.getElementById("progressText").style.display = "block";
+  document.getElementById("resultsArea").innerHTML = "";
+  document.getElementById("resultsArea").classList.remove("show");
+  renderAll();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+document.addEventListener("keydown",function(e){
+  if(submitted) return;
+  if(e.key==="ArrowRight"||e.key==="ArrowDown"){e.preventDefault();nextQ();}
+  if(e.key==="ArrowLeft"||e.key==="ArrowUp"){e.preventDefault();prevQ();}
+  let num = parseInt(e.key);
+  if(num>=1&&num<=4&&currentQ<20){selectAnswer(currentQ,num-1);}
+});
+
+renderAll();
+</script>
+
+</body>
+</html>
