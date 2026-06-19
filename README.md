@@ -50,12 +50,12 @@
 ```bash
 git clone https://github.com/HanBing0029/love-iq-test.git
 cd love-iq-test
+```
 
 ## ⚠️ 免责声明
 
 本测试不构成心理咨询或情感咨询，结果仅供参考。
 如果你正面临严重的情感困扰或心理危机，建议寻求专业心理咨询师帮助。
-```
 
 ---
 
